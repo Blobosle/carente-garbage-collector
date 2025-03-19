@@ -79,7 +79,7 @@ void mark_all(VM *vm) {
 void sweep(VM *vm) {
   assert(vm);
 
-  for (object **cur = &vm->head; *cur; cur = &(*cur)->next) {
+  for (object **cur = &vm->head; *cur;) {
     if (!(*cur)->mark) {
       object *del = *cur;
       *cur = del->next;
@@ -89,6 +89,7 @@ void sweep(VM *vm) {
     }
 
     (*cur)->mark = 0;
+    cur = &(*cur)->next;
   }
 }
 
